@@ -37,9 +37,7 @@ public class TemplateChunkProvider extends ChunkSource {
         this.lightManager = new LevelLightEngine(this, true, true);
 
         HashMap<BlockPos, StructureTemplate.StructureBlockInfo> blockInfo = new HashMap<>();
-        blocks.forEach(sbi -> {
-            blockInfo.put(sbi.pos, sbi);
-        });
+        blocks.forEach(sbi -> blockInfo.put(sbi.pos(), sbi));
 
         chunks = loadChunkData(blockInfo, world, shouldShow);
     }

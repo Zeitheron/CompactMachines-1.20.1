@@ -46,10 +46,10 @@ public class Registries {
     public static final DeferredRegister<IGraphEdgeType> EDGE_TYPES = DeferredRegister.create(EDGES_REG_KEY, MOD_ID);
 
     // Commands
-    public static final DeferredRegister<ArgumentTypeInfo<?, ?>> COMMAND_ARGUMENT_TYPES = DeferredRegister.create(Registry.COMMAND_ARGUMENT_TYPE_REGISTRY, MOD_ID);
+    public static final DeferredRegister<ArgumentTypeInfo<?, ?>> COMMAND_ARGUMENT_TYPES = DeferredRegister.create(net.minecraft.core.registries.Registries.COMMAND_ARGUMENT_TYPE, MOD_ID);
 
     // LootFunctions
-    public static final DeferredRegister<LootItemFunctionType> LOOT_FUNCS = DeferredRegister.create(Registry.LOOT_FUNCTION_REGISTRY, MOD_ID);
+    public static final DeferredRegister<LootItemFunctionType> LOOT_FUNCS = DeferredRegister.create(net.minecraft.core.registries.Registries.LOOT_FUNCTION_TYPE, MOD_ID);
 
     public static void setup() {
 

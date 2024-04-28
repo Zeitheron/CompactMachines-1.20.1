@@ -8,7 +8,6 @@ buildscript {
     }
 
     dependencies {
-        classpath "net.minecraftforge.gradle:ForgeGradle:5.1.+"
         classpath 'org.parchmentmc:librarian:1.+'
     }
 }
@@ -17,16 +16,16 @@ plugins {
     id "idea"
     id "eclipse"
     id "maven-publish"
+    id 'net.neoforged.gradle' version '[6.0.13, 6.2)'
 }
 
-apply plugin: "net.minecraftforge.gradle"
 apply plugin: 'org.parchmentmc.librarian.forgegradle'
 
-def semver = System.getenv("CM_SEMVER_VERSION")
-def buildNumber = System.getenv("CM_BUILD_NUM")
+def semver = CM_SEMVER_VERSION
+def buildNumber = CM_BUILD_NUM
 
 def nightlyVersion = "${semver}.${buildNumber}"
-def isRelease = (System.getenv("CM_RELEASE") ?: "false").equalsIgnoreCase("true")
+def isRelease = (CM_RELEASE ?: "false").equalsIgnoreCase("true")
 
 task getBuildInfo() {
     println("Mod ID: ${mod_id}")
@@ -87,7 +86,7 @@ sourceSets {
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
-    mappings channel: 'parchment', version: parchment_version
+    mappings channel: 'official', version: minecraft_version
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
@@ -113,9 +112,7 @@ minecraft {
                 jvmArg '-XX:HotswapAgent=fatjar'
             }
 
-            args '--username', 'Nano'
-            args '--width', 1920
-            args '--height', 1080
+            args '--username', 'Zeitheron'
 
             mods {
                 compactmachines {
@@ -177,11 +174,7 @@ minecraft {
                 // JetBrains Runtime Hotswap
                 jvmArg '-XX:+AllowEnhancedClassRedefinition'
                 jvmArg '-XX:HotswapAgent=fatjar'
-            } else {
-                forceExit false
             }
-
-            forceExit false
 
             mods {
                 compactmachines {
@@ -211,8 +204,6 @@ minecraft {
             property 'mixin.env.remapRefMap', 'true'
             property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
 
-            forceExit false
-
             if(!System.getenv().containsKey("CI")) {
                 // JetBrains Runtime Hotswap
                 jvmArg '-XX:+AllowEnhancedClassRedefinition'
@@ -232,6 +223,14 @@ minecraft {
 }
 
 repositories {
+    maven {
+        name = "Zeitheron Maven"
+        url = "https://maven.zeith.org/"
+        content {
+            includeGroupByRegex "org\\.zeith.*"
+        }
+    }
+
     mavenLocal()
 
     maven {
@@ -241,15 +240,12 @@ repositories {
         }
     }
 
-    // location of the maven that hosts JEI files
     maven {
-        name "Progwml Repo"
-        url "https://dvs1.progwml6.com/files/maven"
-    }
-
-    // TheOneProbe
-    maven {
-        url "https://maven.k-4u.nl"
+        name = "Jared's maven"
+        url = "https://maven.blamejared.com/" // location of the maven that hosts JEI files since January 2023
+        content {
+            includeGroupByRegex "mezz\\.jei.*"
+        }
     }
 
     maven {
@@ -262,7 +258,9 @@ dependencies {
     // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+    minecraft "net.neoforged:forge:${minecraft_version}-${forge_version}"
+
+    implementation fg.deobf("org.zeith.hammerlib:HammerLib-${minecraft_version}:${hl_version}")
 
     // JEI
     compileOnly fg.deobf("mezz.jei:jei-${jei_mc_version}-common-api:${jei_version}")
@@ -270,49 +268,8 @@ dependencies {
     runtimeOnly fg.deobf("mezz.jei:jei-${jei_mc_version}-forge:${jei_version}")
 
     // The One Probe
-    implementation(fg.deobf("curse.maven:theoneprobe-245211:3927520"))
-
-    if (!System.getenv().containsKey("CI") && include_test_mods.equals("true")) {
-        // Nicephore - Screenshots and Stuff
-        runtimeOnly(fg.deobf("curse.maven:nicephore-401014:3879841"))
-
-        // Testing Mods - Trash Cans, Pipez, Create, Refined Pipes, Pretty Pipes, Refined Storage
-        runtimeOnly(fg.deobf("curse.maven:SuperMartijn642-454372:3910759"))
-        runtimeOnly(fg.deobf("curse.maven:trashcans-394535:3871885"))
-
-        // runtimeOnly(fg.deobf("curse.maven:flywheel-486392:3871082"))
-        // runtimeOnly(fg.deobf("curse.maven:create-328085:3737418"))
-
-        // runtimeOnly(fg.deobf("curse.maven:refinedpipes-370696:3570151"))
-        // runtimeOnly(fg.deobf("curse.maven:prettypipes-376737:3573145"))
-        // runtimeOnly(fg.deobf("curse.maven:refinedstorage-243076:3623324"))
-
-        // Scalable Cat's Force, BdLib, Advanced Generators
-        // runtimeOnly(fg.deobf("curse.maven:scalable-320926:3634756"))
-        // runtimeOnly(fg.deobf("curse.maven:bdlib-70496:3663149"))
-        // runtimeOnly(fg.deobf("curse.maven:advgen-223622:3665335"))
-
-        // Immersive Eng - 7.1.0-145 (Dec 31)
-        // runtimeOnly(fg.deobf("curse.maven:immersiveeng-231951:3587149"))
-
-        // FTB Chunks
-        // runtimeOnly(fg.deobf("curse.maven:architectury-forge-419699:3781711"))
-        // runtimeOnly(fg.deobf("curse.maven:ftb-teams-404468:3725501"))
-        // runtimeOnly(fg.deobf("curse.maven:ftblib-404465:3725485"))
-        // runtimeOnly(fg.deobf("curse.maven:ftbchunks-314906:3780113"))
-
-        // Mekanism + Mek Generators - Tunnel testing
-        runtimeOnly(fg.deobf("curse.maven:mekanism-268560:3922056"))
-        runtimeOnly(fg.deobf("curse.maven:mekanismgenerators-268566:3922058"))
-
-        // Soul Shards (FTB)
-        // runtimeOnly(fg.deobf("curse.maven:polylib-576589:3751528"))
-        // runtimeOnly(fg.deobf("curse.maven:soulshards-551523:3757202"))
-
-        // Everlasting Abilities
-        // runtimeOnly(fg.deobf("curse.maven:cyclopscore-232758:3809427"))
-        // runtimeOnly(fg.deobf("curse.maven:everlastabilities-248353:3768481"))
-    }
+    implementation(fg.deobf("curse.maven:theoneprobe-245211:5159287"))
+    implementation(fg.deobf("curse.maven:jade-324717:5072729"))
 }
 
 processResources {

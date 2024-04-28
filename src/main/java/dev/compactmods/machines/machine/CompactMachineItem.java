@@ -1,18 +1,16 @@
 package dev.compactmods.machines.machine;
 
+import dev.compactmods.machines.CompactMachines;
 import dev.compactmods.machines.api.core.Tooltips;
 import dev.compactmods.machines.api.machine.MachineNbt;
-import dev.compactmods.machines.i18n.TranslationUtil;
 import dev.compactmods.machines.api.room.RoomSize;
+import dev.compactmods.machines.i18n.TranslationUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -27,6 +25,8 @@ public class CompactMachineItem extends BlockItem {
 
     public CompactMachineItem(Block blockIn, Properties builder) {
         super(blockIn, builder);
+        
+        CompactMachines.COMPACT_MACHINES_ITEMS.add(this);
     }
 
     @Deprecated(forRemoval = true)

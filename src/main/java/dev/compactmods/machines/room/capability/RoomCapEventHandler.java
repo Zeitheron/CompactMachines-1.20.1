@@ -9,15 +9,17 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = Constants.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-public class RoomCapEventHandler {
-
-    @SubscribeEvent
-    static void onCapPlayerAttach(final AttachCapabilitiesEvent<Entity> event) {
-        if(!(event.getObject() instanceof Player player))
-            return;
-
-        event.addCapability(
-                new ResourceLocation(Constants.MOD_ID, "room_history"),
-                new PlayerRoomHistoryCapProvider(player));
-    }
+public class RoomCapEventHandler
+{
+	@SubscribeEvent
+	static void onCapPlayerAttach(final AttachCapabilitiesEvent<Entity> event)
+	{
+		if(!(event.getObject() instanceof Player player))
+			return;
+		
+		event.addCapability(
+				new ResourceLocation(Constants.MOD_ID, "room_history"),
+				new PlayerRoomHistoryCapProvider(player)
+		);
+	}
 }

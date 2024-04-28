@@ -3,21 +3,14 @@ package dev.compactmods.machines.tunnel;
 import dev.compactmods.machines.CompactMachines;
 import dev.compactmods.machines.api.tunnels.TunnelDefinition;
 import dev.compactmods.machines.core.Registries;
-import dev.compactmods.machines.tunnel.definitions.FluidTunnel;
-import dev.compactmods.machines.tunnel.definitions.ForgeEnergyTunnel;
-import dev.compactmods.machines.tunnel.definitions.ItemTunnel;
-import dev.compactmods.machines.tunnel.definitions.UnknownTunnel;
+import dev.compactmods.machines.tunnel.definitions.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
-import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.RegistryBuilder;
-import net.minecraftforge.registries.RegistryObject;
+import net.minecraftforge.registries.*;
 
 import java.util.function.Supplier;
 
@@ -43,7 +36,7 @@ public class Tunnels {
     public static final RegistryObject<TunnelDefinition> UNKNOWN = Registries.TUNNEL_DEFINITIONS.register("unknown", UnknownTunnel::new);
 
     public static final RegistryObject<Item> ITEM_TUNNEL = Registries.ITEMS.register("tunnel", () ->
-            new TunnelItem(new Item.Properties().tab(CompactMachines.COMPACT_MACHINES_ITEMS)));
+            new TunnelItem(new Item.Properties()));
 
     // ================================================================================================================
     //   TUNNEL TYPE DEFINITIONS
@@ -58,7 +51,7 @@ public class Tunnels {
     //   TUNNEL BLOCKS / TILES
     // ================================================================================================================
     public static final RegistryObject<Block> BLOCK_TUNNEL_WALL = Registries.BLOCKS.register("tunnel_wall", () ->
-            new TunnelWallBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.CLAY)
+            new TunnelWallBlock(BlockBehaviour.Properties.of()
                     .strength(-1.0F, 3600000.8F)
                     .sound(SoundType.METAL)
                     .lightLevel((state) -> 15)));

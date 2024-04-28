@@ -1,0 +1,31 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "compactmachines:config_enable_vanilla_recipes"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "key": {
+          "C": {
+            "tag": "forge:storage_blocks/gold"
+          },
+          "W": {
+            "item": "compactmachines:wall"
+          }
+        },
+        "pattern": [
+          "WWW",
+          "WCW",
+          "WWW"
+        ],
+        "result": {
+          "item": "compactmachines:machine_normal"
+        }
+      }
+    }
+  ]
+}

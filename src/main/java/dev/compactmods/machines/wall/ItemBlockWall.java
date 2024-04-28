@@ -1,14 +1,13 @@
 package dev.compactmods.machines.wall;
 
+import dev.compactmods.machines.CompactMachines;
 import dev.compactmods.machines.api.core.Tooltips;
 import dev.compactmods.machines.i18n.TranslationUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 
@@ -19,6 +18,7 @@ public class ItemBlockWall extends BlockItem {
 
     public ItemBlockWall(Block blockIn, Properties builder) {
         super(blockIn, builder);
+        CompactMachines.COMPACT_MACHINES_ITEMS.add(this);
     }
 
     @Override
